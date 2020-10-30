@@ -1,15 +1,16 @@
-import { ADD_TO_WALLETS_HOLDER, REMOVE_FROM_WALLETS_HOLDER } from '../actions/types';
+import { ADD_ADDRESS, REMOVE_ADDRESS } from '../actions/types';
 
 const initialState = {
+    addresses: [],
     wallets: []
 }
 
 const walletsReducer = (state = initialState, action) => {
     switch (action.type) {
-        case ADD_TO_WALLETS_HOLDER: {
-            return state.wallets.concat(action.wallet)
+        case ADD_ADDRESS: {
+            return state.wallets.concat(action.address)
         }
-        case REMOVE_FROM_WALLETS_HOLDER: {
+        case REMOVE_ADDRESS: {
             return {
                 ...state
             }

@@ -1,15 +1,15 @@
-import {ADD_TO_WALLETS_HOLDER, REMOVE_FROM_WALLETS_HOLDER} from './types';
+import {ADD_ADDRESS, REMOVE_ADDRESS} from './types';
 
-export const addToWalletsHolder = wallet => {
+export const addAddress = address => {
     return {
-        type: ADD_TO_WALLETS_HOLDER,
-        wallet: wallet
+        type: ADD_ADDRESS,
+        address: address
     }
 }
 
-export const removeFromWalletHolder = wallet => {
+export const removeAddress = address => {
     return {
-        type: REMOVE_FROM_WALLETS_HOLDER,
-        wallet: wallet
+        type: REMOVE_ADDRESS,
+        address: address
     }
 }

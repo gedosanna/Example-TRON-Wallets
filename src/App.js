@@ -1,9 +1,10 @@
 import React from 'react';
 import './style/main.scss';
+import 'bootstrap';
 
 const App = () => {
     return (
-        <p>Example Tron Wallets</p>
+        <p className="col-2">Example Tron Wallets</p>
     )
 }
 
