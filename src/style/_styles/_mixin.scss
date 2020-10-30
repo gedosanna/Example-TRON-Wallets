@@ -1,0 +1,4 @@
+@mixin box {
+    box-shadow: 0px 0px 10px 6px $shadowColor;
+    background-color: $whiteColor;
+  }

@@ -1,0 +1,78 @@
+#app {
+    background: url('../images/background.jpg');
+    display: flex;
+    justify-content: center;
+    padding: 10%;
+    min-height: 100vh;
+    flex-wrap: wrap;
+    * {
+        font-family: Arial, Helvetica, sans-serif;
+    }
+    header {
+        @include box;
+        border: .02rem solid $goldColor;
+        height: fit-content;
+        padding: 4% 7%;
+        margin-bottom: 10vh;
+        h1 {
+            font-size: 2rem;
+            margin: 0;
+            text-align: center;
+        }
+    }
+    .addresses-container {
+        @include box;
+        min-height: 20vh;
+        padding: 2rem 2.5rem;
+        h2 {
+            font-size: 1.5rem;
+            border-bottom: .02rem solid $goldColor;
+            padding: .3rem;
+        }
+        form {
+            p {
+                padding-right: 2.8rem;
+            }
+            input {
+                border: .01rem solid $goldColor;
+                border-radius: 1rem;
+                padding: 0.2rem 0.8rem;
+                &:focus {
+                    outline: none;
+                }
+            }
+            button {
+                background-color: $goldColor;
+                border: 0;
+                width: 2rem;
+                height: 2rem;
+                margin-left: .8rem;
+                font-size: .8rem;
+                border-radius: 50%;
+                &:focus {
+                    outline: none;
+                }
+            }
+        }
+        .addresses-table-container {
+            padding: 2rem 0;
+            .addresses-table {
+                th {
+                    border: 0;
+                }
+                .delete-address {
+                    cursor: pointer;
+                    text-align: center;
+                    &:hover {
+                        color: $goldColor
+                    }
+                }
+            }
+        }
+        button {
+            border: .01rem solid $goldColor;
+            background: transparent;
+            padding: .4rem .8rem;
+        }
+    }
+}

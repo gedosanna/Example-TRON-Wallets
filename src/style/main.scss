@@ -1,5 +1,4 @@
 @import "~bootstrap/scss/bootstrap";
-
-body * {
-    color: red;
-}
+@import './_styles/colors';
+@import './_styles/mixin';
+@import './_styles/main';
