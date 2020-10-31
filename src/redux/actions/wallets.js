@@ -5,8 +5,12 @@ import {
     FETCH_ADDRESS_FAILURE,
     FETCH_WALLETS_REQUEST,
     FETCH_WALLETS_SUCCESS,
-    FETCH_WALLETS_FAILURE
+    FETCH_WALLETS_FAILURE,
+    SORT_WALLETS,
+    SEARCH_WALLETS
 } from './types';
+const moment = require('moment');
+moment().format();
 
 // Address validation and adding 
 
@@ -85,7 +89,7 @@ export const fetchWalletsFailure = (error) => {
     }
 }
 
-export const fetchWallets = (address) => {
+export const fetchWallets = (address, wallets) => {
     return (dispatch) => {
         dispatch(fetchWalletsRequest)
         fetch("https://api.trongrid.io/wallet/getaccount", {
@@ -97,12 +101,153 @@ export const fetchWallets = (address) => {
             })
                 .then(response => response.json())
                 .then(responseJson => {
-                    console.log(responseJson)
                     dispatch(fetchWalletsSuccess(responseJson))
                 })
             .catch(err => {
                 console.error(err);
                 (fetchWalletsFailure(err.message))
             });
+    }
+}
+
+// Sort function
+
+export const sortWallets = (wallets, operationType) => {
+    switch (operationType) {
+        case 'addressUp': {
+            const sortedWallets = wallets.sort((a, b)=> {
+                if(a.address < b.address) return -1;
+                else if(a.address > b.address) return 1;
+                return 0;
+            })
+            return {
+                type: SORT_WALLETS,
+                wallets: sortedWallets
+            }
+        }
+        case 'addressDown': {
+            const sortedWallets = wallets.sort((a, b)=> {
+                if(a.address < b.address) return 1;
+                else if(a.address > b.address) return -1;
+                return 0;
+            })
+            return {
+                type: SORT_WALLETS,
+                wallets: sortedWallets
+            }
+        }
+        case 'balanceUp': {
+            const sortedWallets = wallets.sort((a, b)=> {
+                const aBalance = parseInt(a.balance, 16);
+                const bBalance = parseInt(b.balance, 16);
+                if(aBalance < bBalance) return -1;
+                else if(aBalance > bBalance) return 1;
+                return 0;
+            })
+            return {
+                type: SORT_WALLETS,
+                wallets: sortedWallets
+            }
+        }
+        case 'balanceDown': {
+            const sortedWallets = wallets.sort((a, b)=> {
+                const aBalance = parseInt(a.balance, 16);
+                const bBalance = parseInt(b.balance, 16);
+                if(aBalance < bBalance) return 1;
+                else if(aBalance > bBalance) return -1;
+                return 0;
+            })
+            return {
+                type: SORT_WALLETS,
+                wallets: sortedWallets
+            }
+        }
+        case 'createTimeUp': {
+            const sortedWallets = wallets.sort((a, b)=> {
+                const aDate = new Date(a.create_time);
+                const bDate = new Date(b.create_time);
+                if(aDate < bDate) return -1;
+                else if(aDate > bDate) return 1;
+                return 0;
+            })
+            return {
+                type: SORT_WALLETS,
+                wallets: sortedWallets
+            }
+        }
+        case 'createTimeDown': {
+            const sortedWallets = wallets.sort((a, b)=> {
+                const aDate = new Date(a.create_time);
+                const bDate = new Date(b.create_time);
+                if(aDate < bDate) return 1;
+                else if(aDate > bDate) return -1;
+                return 0;
+            })
+            return {
+                type: SORT_WALLETS,
+                wallets: sortedWallets
+            }
+        }
+        case 'latestOperationTimeUp': {
+            const sortedWallets = wallets.sort((a, b)=> {
+                const aDate = new Date(a.latest_opration_time);
+                const bDate = new Date(b.latest_opration_time);
+                if(aDate < bDate) return -1;
+                else if(aDate > bDate) return 1;
+                return 0;
+            })
+            return {
+                type: SORT_WALLETS,
+                wallets: sortedWallets
+            }
+        }
+        case 'latestOperationTimeDown': {
+            const sortedWallets = wallets.sort((a, b)=> {
+                const aDate = new Date(a.latest_opration_time);
+                const bDate = new Date(b.latest_opration_time);
+                if(aDate < bDate) return 1;
+                else if(aDate > bDate) return -1;
+                return 0;
+            })
+            return {
+                type: SORT_WALLETS,
+                wallets: sortedWallets
+            }
+        }
+    }
+}
+
+// Search function
+
+export const searchWallets = (searchText, walletsHolder, column) => {
+    let foundWallets = [];
+    if(column === 'address') {
+        foundWallets = walletsHolder.filter(wallet => {
+            if(wallet.address.toUpperCase().includes(searchText.toUpperCase())) return wallet
+        })
+    }
+    else if(column === 'balance') {
+        foundWallets = walletsHolder.filter(wallet => {
+            const balance = parseInt(wallet.balance, 16).toString();
+            if(balance.includes(searchText)) return wallet
+        })
+    }
+    else if(column === 'createTime') {
+        foundWallets = walletsHolder.filter(wallet => {
+            let createTime = new Date(wallet.create_time);
+            createTime = moment(createTime).format('MMMM D YYYY').toString().toUpperCase();
+            if(createTime.includes(searchText.toUpperCase())) return wallet
+        })
+    }
+    else if(column === 'latestOperationTime') {
+        foundWallets = walletsHolder.filter(wallet => {
+            let createTime = new Date(wallet.latest_opration_time);
+            createTime = moment(createTime).format('MMMM D YYYY').toString().toUpperCase();
+            if(createTime.includes(searchText.toUpperCase())) return wallet
+        })
+    }
+    return {
+        type: SEARCH_WALLETS,
+        wallets: foundWallets
     }
 }

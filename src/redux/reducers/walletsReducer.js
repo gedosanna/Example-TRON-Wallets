@@ -6,15 +6,20 @@ import {
     FETCH_WALLETS_REQUEST,
     FETCH_WALLETS_SUCCESS,
     FETCH_WALLETS_FAILURE,
+    SORT_WALLETS,
+    SEARCH_WALLETS
 } from '../actions/types';
 
 const initialState = {
-    addresses: ['TGmcz6UMqeTUoNryw4LcPeTWmo1DWrxRUK', 'TUv34RrPNY2qTNHZ9q4mLc9AuUu9Tpy3Jg'],
+    addresses: ['TUv34RrPNY2qTNHZ9q4mLc9AuUu9Tpy3Jg', 'TGmcz6UMqeTUoNryw4LcPeTWmo1DWrxRUK'],
     wallets: [],
+    walletsHolder: [],
     loadingAdd: true,
     messageAdd: 'Add new',
-    resultAdd: '',
-    loadingWallets: true
+    resultClass: 'correct',
+    loadingWallets: true,
+    sorted: false,
+    search: false,
 }
 
 const walletsReducer = (state = initialState, action) => {
@@ -28,10 +33,11 @@ const walletsReducer = (state = initialState, action) => {
         case FETCH_ADDRESS_SUCCESS : {
             const message = action.result ? 'Added successfully!' : `Error: ${action.message}`
             const newAddresses = action.result ? state.addresses.concat(action.address) : state.addresses
+            const resultClass = action.result? 'correct': 'incorrect'
             return {
                 ...state,
                 loadingAdd: false,
-                resultAdd: action.result,
+                resultClass: resultClass,
                 messageAdd: message,
                 error: '',
                 addresses: newAddresses
@@ -49,9 +55,11 @@ const walletsReducer = (state = initialState, action) => {
             const newAddresses = state.addresses.filter(address => {
                 return address !== action.address
             })
+            const newWallets = state.wallets.filter(wallet => wallet.address !== action.address)
             return {
                 ...state,
-                addresses: newAddresses
+                addresses: newAddresses,
+                wallets: newWallets
             }
         }
         case FETCH_WALLETS_REQUEST : {
@@ -65,6 +73,7 @@ const walletsReducer = (state = initialState, action) => {
                 ...state,
                 loadingWallets: false,
                 wallets: state.wallets.concat(action.wallet),
+                walletsHolder: state.wallets.concat(action.wallet),
                 error: '',
             }
         }
@@ -73,6 +82,20 @@ const walletsReducer = (state = initialState, action) => {
                 ...state,
                 loadingWallets: false,
                 error: action.payload
+            }
+        }
+        case SORT_WALLETS: {
+            return {
+                ...state,
+                sorted: !state.sorted,
+                wallets: action.wallets
+            }
+        }
+        case SEARCH_WALLETS: {
+            return {
+                ...state,
+                search: !state.search,
+                wallets: action.wallets
             }
         }
         default:

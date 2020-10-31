@@ -31,14 +31,22 @@
         }
         form {
             p {
+                color: $darkColor;
                 padding-right: 2.8rem;
+                &.incorrect {
+                    color: $redColor;
+                }
+                &.correct {
+                    color: $darkColor
+                }
             }
             input {
-                border: .01rem solid $goldColor;
-                border-radius: 1rem;
-                padding: 0.2rem 0.8rem;
-                &:focus {
-                    outline: none;
+                @include input;
+                &.incorrect {
+                    border-color: $redColor;
+                }
+                &.correct {
+                    border-color: $goldColor
                 }
             }
             button {
@@ -108,6 +116,13 @@
             font-size: 1.2rem;
             &:hover {
                 color: $shadowColor;
+            }
+        }
+        input {
+            @include input;
+            max-width: 8rem;
+            &.first-search {
+                max-width: 15rem;
             }
         }
     }

@@ -12,38 +12,49 @@ export const WalletsTable = (props) => {
                     <th scope="col"></th>
                     <th scope="col">
                         <div className="row m-0 align-items-center">
-                            <p className='col-8 d-inline-block m-0'>Address</p>
+                            <p className='col-8 d-inline-block m-0 p-0'>Address</p>
                             <div className='col-4 d-inline-block'>
-                                <FontAwesomeIcon icon={faCaretUp} className='sort-element' />
-                                <FontAwesomeIcon icon={faCaretDown} className='sort-element' />
+                                <FontAwesomeIcon icon={faCaretUp} className='sort-element' onClick={() => props.sortWallets(props.wallets, 'addressUp')} />
+                                <FontAwesomeIcon icon={faCaretDown} className='sort-element' onClick={() => props.sortWallets(props.wallets, 'addressDown')} />
                             </div>
-                        </div>
-
-                    </th>
-                    <th scope="col">
-                        <div className="row m-0 align-items-center">
-                            <p className='col-8 d-inline-block m-0'>Balance</p>
-                            <div className='col-4 d-inline-block'>
-                                <FontAwesomeIcon icon={faCaretUp} className='sort-element' />
-                                <FontAwesomeIcon icon={faCaretDown} className='sort-element' />
+                            <div className='col-12 p-0'>
+                                <input placeholder='Search...' className='first-search' onChange={(e) => props.searchWallets(e.target.value, props.walletsHolder, 'address')} />
                             </div>
                         </div>
                     </th>
                     <th scope="col">
                         <div className="row m-0 align-items-center">
-                            <p className='col-8 d-inline-block m-0'>Create time</p>
+                            <p className='col-8 d-inline-block m-0 p-0'>Balance</p>
                             <div className='col-4 d-inline-block'>
-                                <FontAwesomeIcon icon={faCaretUp} className='sort-element' />
-                                <FontAwesomeIcon icon={faCaretDown} className='sort-element' />
+                                <FontAwesomeIcon icon={faCaretUp} className='sort-element' onClick={() => props.sortWallets(props.wallets, 'balanceUp')} />
+                                <FontAwesomeIcon icon={faCaretDown} className='sort-element' onClick={() => props.sortWallets(props.wallets, 'balanceDown')} />
+                            </div>
+                            <div className='col-12 p-0'>
+                                <input placeholder='Search...' onChange={(e) => props.searchWallets(e.target.value, props.walletsHolder, 'balance')} />
                             </div>
                         </div>
                     </th>
                     <th scope="col">
                         <div className="row m-0 align-items-center">
-                            <p className='col-8 d-inline-block m-0'>Latest operation time</p>
+                            <p className='col-8 d-inline-block m-0 p-0'>Create time</p>
                             <div className='col-4 d-inline-block'>
-                                <FontAwesomeIcon icon={faCaretUp} className='sort-element' />
-                                <FontAwesomeIcon icon={faCaretDown} className='sort-element' />
+                                <FontAwesomeIcon icon={faCaretUp} className='sort-element' onClick={() => props.sortWallets(props.wallets, 'createTimeUp')} />
+                                <FontAwesomeIcon icon={faCaretDown} className='sort-element' onClick={() => props.sortWallets(props.wallets, 'createTimeDown')} />
+                            </div>
+                            <div className='col-12 p-0'>
+                                <input placeholder='Search...' onChange={(e) => props.searchWallets(e.target.value, props.walletsHolder, 'createTime')} />
+                            </div>
+                        </div>
+                    </th>
+                    <th scope="col">
+                        <div className="row m-0 align-items-center">
+                            <p className='col-8 d-inline-block m-0 p-0'>Latest operation time</p>
+                            <div className='col-4 d-inline-block'>
+                                <FontAwesomeIcon icon={faCaretUp} className='sort-element' onClick={() => props.sortWallets(props.wallets, 'latestOperationTimeUp')} />
+                                <FontAwesomeIcon icon={faCaretDown} className='sort-element' onClick={() => props.sortWallets(props.wallets, 'latestOperationTimeDown')} />
+                            </div>
+                            <div className='col-12 p-0'>
+                                <input placeholder='Search...' onChange={(e) => props.searchWallets(e.target.value, props.walletsHolder, 'latestOperationTime')} />
                             </div>
                         </div></th>
                 </tr>
