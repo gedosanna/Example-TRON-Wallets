@@ -1,15 +1,20 @@
-import { 
-    REMOVE_ADDRESS, 
-    FETCH_ADDRESS_REQUEST, 
-    FETCH_ADDRESS_SUCCESS, 
-    FETCH_ADDRESS_FAILURE } from '../actions/types';
+import {
+    REMOVE_ADDRESS,
+    FETCH_ADDRESS_REQUEST,
+    FETCH_ADDRESS_SUCCESS,
+    FETCH_ADDRESS_FAILURE,
+    FETCH_WALLETS_REQUEST,
+    FETCH_WALLETS_SUCCESS,
+    FETCH_WALLETS_FAILURE,
+} from '../actions/types';
 
 const initialState = {
-    addresses: ['TGmcz6UMqeTUoNryw4LcPeTWmo1DWrxRUK', 'TSFKJsiJrt6bUTmxS1F1Fmv6UUYdGVB9Ws'],
+    addresses: ['TGmcz6UMqeTUoNryw4LcPeTWmo1DWrxRUK', 'TUv34RrPNY2qTNHZ9q4mLc9AuUu9Tpy3Jg'],
     wallets: [],
     loadingAdd: true,
     messageAdd: 'Add new',
-    resultAdd: ''
+    resultAdd: '',
+    loadingWallets: true
 }
 
 const walletsReducer = (state = initialState, action) => {
@@ -17,7 +22,7 @@ const walletsReducer = (state = initialState, action) => {
         case FETCH_ADDRESS_REQUEST : {
             return {
                 ...state,
-                loading: true
+                loadingAdd: true
             }
         }
         case FETCH_ADDRESS_SUCCESS : {
@@ -25,7 +30,7 @@ const walletsReducer = (state = initialState, action) => {
             const newAddresses = action.result ? state.addresses.concat(action.address) : state.addresses
             return {
                 ...state,
-                loading: false,
+                loadingAdd: false,
                 resultAdd: action.result,
                 messageAdd: message,
                 error: '',
@@ -35,7 +40,7 @@ const walletsReducer = (state = initialState, action) => {
         case FETCH_ADDRESS_FAILURE : {
             return {
                 ...state,
-                loading: false,
+                loadingAdd: false,
                 favorites: [],
                 error: action.payload
             }
@@ -47,6 +52,27 @@ const walletsReducer = (state = initialState, action) => {
             return {
                 ...state,
                 addresses: newAddresses
+            }
+        }
+        case FETCH_WALLETS_REQUEST : {
+            return {
+                ...state,
+                loadingWallets: true
+            }
+        }
+        case FETCH_WALLETS_SUCCESS : {
+            return {
+                ...state,
+                loadingWallets: false,
+                wallets: state.wallets.concat(action.wallet),
+                error: '',
+            }
+        }
+        case FETCH_WALLETS_FAILURE : {
+            return {
+                ...state,
+                loadingWallets: false,
+                error: action.payload
             }
         }
         default:

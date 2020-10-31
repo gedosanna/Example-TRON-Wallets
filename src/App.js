@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import './style/main.scss';
 import 'bootstrap';
 import { connect } from 'react-redux';
-import { fetchAddress, removeAddress } from './redux/actions/wallets';
+import { fetchAddress, removeAddress, fetchWallets } from './redux/actions/wallets';
 import { AddressesTable } from './components/AddressesTable';
+import { WalletsTable } from './components/WalletsTable';
 
 const App = (props) => {
     const [address, setAddress] = useState();
@@ -19,15 +20,20 @@ const App = (props) => {
                         <form>
                             <p className="text-center font-weight-bold">{props.message}</p>
                             <input type='text' onChange={(e) => setAddress(e.target.value)} />
-                            <button type='submit' onClick={(e) => { e.preventDefault(); props.fetchAddress(address)}}>+</button>
+                            <button type='submit' onClick={(e) => { e.preventDefault(); props.fetchAddress(address) }}>+</button>
                         </form>
                     </div>
                     <div className='addresses-table-container'>
-                        {props.addresses.length > 0 && <AddressesTable addresses={props.addresses} removeAddress={props.removeAddress}/>}
+                        {props.addresses.length > 0 && <AddressesTable addresses={props.addresses} removeAddress={props.removeAddress} />}
                     </div>
                     <div className='container-fluid text-center'>
-                    <button className='font-weight-bold'>Generate table</button>
+                        <button className='font-weight-bold' onClick={() => props.addresses.forEach(address => props.fetchWallets(address))}>Generate table</button>
                     </div>
+                </div>
+            </section>
+            <section className="row m-0 container-fluid justify-content-center">
+                <div className="wallets-table-container col-10">
+                    {props.wallets.length > 0 && <WalletsTable wallets={props.wallets} />}
                 </div>
             </section>
         </>
@@ -36,15 +42,16 @@ const App = (props) => {
 const mapStateToProps = (state) => {
     return {
         message: state.wallets.messageAdd,
-        addresses: state.wallets.addresses
-
+        addresses: state.wallets.addresses,
+        wallets: state.wallets.wallets
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
         fetchAddress: (address) => dispatch(fetchAddress(address)),
-        removeAddress: (address) => dispatch(removeAddress(address))
+        removeAddress: (address) => dispatch(removeAddress(address)),
+        fetchWallets: (addresses) => dispatch(fetchWallets(addresses))
     }
 }
 

@@ -49,13 +49,21 @@
                 margin-left: .8rem;
                 font-size: .8rem;
                 border-radius: 50%;
+                display: inline-flex;
+                justify-content: center;
+                align-items: center;
+                border: .2rem solid $goldColor;
                 &:focus {
                     outline: none;
+                }
+                &:hover {
+                    background-color: transparent;
                 }
             }
         }
         .addresses-table-container {
             padding: 2rem 0;
+            overflow-x: auto;
             .addresses-table {
                 th {
                     border: 0;
@@ -73,6 +81,34 @@
             border: .01rem solid $goldColor;
             background: transparent;
             padding: .4rem .8rem;
+            &:focus {
+                outline: none;
+            }
+            &:hover {
+                background-color: $goldColor;
+            }
+        }
+    }
+    .wallets-table-container {
+        @include box;
+        margin-top: 5rem;
+        padding: 2rem 2.5rem;
+        min-height: 20vh;
+        overflow-x: auto;
+        .wallets-table {
+            th {
+                border: 0;
+            }
+        }
+        .sort-element {
+            color: $goldColor;
+            margin: 0 .2rem;
+            cursor: pointer;
+            display: block;
+            font-size: 1.2rem;
+            &:hover {
+                color: $shadowColor;
+            }
         }
     }
 }
