@@ -123,109 +123,80 @@ export const fetchWallets = (address, wallets) => {
 // Sort function
 
 export const sortWallets = (wallets, operationType) => {
-    switch (operationType) {
-        case 'addressUp': {
-            const sortedWallets = wallets.sort((a, b) => {
-                if (a.address < b.address) return -1;
-                else if (a.address > b.address) return 1;
-                return 0;
-            })
-            return {
-                type: SORT_WALLETS,
-                wallets: sortedWallets
-            }
-        }
-        case 'addressDown': {
-            const sortedWallets = wallets.sort((a, b) => {
-                if (a.address < b.address) return 1;
-                else if (a.address > b.address) return -1;
-                return 0;
-            })
-            return {
-                type: SORT_WALLETS,
-                wallets: sortedWallets
-            }
-        }
-        case 'balanceUp': {
-            const sortedWallets = wallets.sort((a, b) => {
-                let aBalance, bBalance;
-                a.balance === undefined ? aBalance = 0 : aBalance = parseInt(a.balance, 16);
-                b.balance === undefined ? bBalance = 0 : bBalance = parseInt(b.balance, 16);
-                if (aBalance < bBalance) return -1;
-                else if (aBalance > bBalance) return 1;
-                return 0;
-            })
-            return {
-                type: SORT_WALLETS,
-                wallets: sortedWallets
-            }
-        }
-        case 'balanceDown': {
-            const sortedWallets = wallets.sort((a, b) => {
-                let aBalance, bBalance;
-                a.balance === undefined ? aBalance = 0 : aBalance = parseInt(a.balance, 16);
-                b.balance === undefined ? bBalance = 0 : bBalance = parseInt(b.balance, 16);
-                if (aBalance < bBalance) return 1;
-                else if (aBalance > bBalance) return -1;
-                return 0;
-            })
-            return {
-                type: SORT_WALLETS,
-                wallets: sortedWallets
-            }
-        }
-        case 'createTimeUp': {
-            const sortedWallets = wallets.sort((a, b) => {
-                const aDate = new Date(a.create_time);
-                const bDate = new Date(b.create_time);
-                if (aDate < bDate) return -1;
-                else if (aDate > bDate) return 1;
-                return 0;
-            })
-            return {
-                type: SORT_WALLETS,
-                wallets: sortedWallets
-            }
-        }
-        case 'createTimeDown': {
-            const sortedWallets = wallets.sort((a, b) => {
-                const aDate = new Date(a.create_time);
-                const bDate = new Date(b.create_time);
-                if (aDate < bDate) return 1;
-                else if (aDate > bDate) return -1;
-                return 0;
-            })
-            return {
-                type: SORT_WALLETS,
-                wallets: sortedWallets
-            }
-        }
-        case 'latestOperationTimeUp': {
-            const sortedWallets = wallets.sort((a, b) => {
-                const aDate = new Date(a.latest_opration_time);
-                const bDate = new Date(b.latest_opration_time);
-                if (aDate < bDate) return -1;
-                else if (aDate > bDate) return 1;
-                return 0;
-            })
-            return {
-                type: SORT_WALLETS,
-                wallets: sortedWallets
-            }
-        }
-        case 'latestOperationTimeDown': {
-            const sortedWallets = wallets.sort((a, b) => {
-                const aDate = new Date(a.latest_opration_time);
-                const bDate = new Date(b.latest_opration_time);
-                if (aDate < bDate) return 1;
-                else if (aDate > bDate) return -1;
-                return 0;
-            })
-            return {
-                type: SORT_WALLETS,
-                wallets: sortedWallets
-            }
-        }
+    let sortedWallets;
+    if(operationType === 'addressUp') {
+        sortedWallets = wallets.sort((a, b) => {
+            if (a.address < b.address) return -1;
+            else if (a.address > b.address) return 1;
+            return 0;
+        })
+    }
+    else if(operationType === 'addressDown') {
+        sortedWallets = wallets.sort((a, b) => {
+            if (a.address < b.address) return 1;
+            else if (a.address > b.address) return -1;
+            return 0;
+        })
+    }
+    else if(operationType === 'balanceUp') {
+        sortedWallets = wallets.sort((a, b) => {
+            let aBalance, bBalance;
+            a.balance === undefined ? aBalance = 0 : aBalance = parseInt(a.balance, 16);
+            b.balance === undefined ? bBalance = 0 : bBalance = parseInt(b.balance, 16);
+            if (aBalance < bBalance) return -1;
+            else if (aBalance > bBalance) return 1;
+            return 0;
+        })
+    }
+    else if(operationType === 'balanceDown') {
+        sortedWallets = wallets.sort((a, b) => {
+            let aBalance, bBalance;
+            a.balance === undefined ? aBalance = 0 : aBalance = parseInt(a.balance, 16);
+            b.balance === undefined ? bBalance = 0 : bBalance = parseInt(b.balance, 16);
+            if (aBalance < bBalance) return 1;
+            else if (aBalance > bBalance) return -1;
+            return 0;
+        })
+    }
+    else if(operationType === 'createTimeUp') {
+        sortedWallets = wallets.sort((a, b) => {
+            const aDate = new Date(a.create_time);
+            const bDate = new Date(b.create_time);
+            if (aDate < bDate) return -1;
+            else if (aDate > bDate) return 1;
+            return 0;
+        })
+    }
+    else if(operationType === 'createTimeDown') {
+        sortedWallets = wallets.sort((a, b) => {
+            const aDate = new Date(a.create_time);
+            const bDate = new Date(b.create_time);
+            if (aDate < bDate) return 1;
+            else if (aDate > bDate) return -1;
+            return 0;
+        })
+    }
+    else if(operationType === 'latestOperationTimeUp') {
+        sortedWallets = wallets.sort((a, b) => {
+            const aDate = new Date(a.latest_opration_time);
+            const bDate = new Date(b.latest_opration_time);
+            if (aDate < bDate) return -1;
+            else if (aDate > bDate) return 1;
+            return 0;
+        })
+    }
+    else if(operationType === 'latestOperationTimeDown') {
+        sortedWallets = wallets.sort((a, b) => {
+            const aDate = new Date(a.latest_opration_time);
+            const bDate = new Date(b.latest_opration_time);
+            if (aDate < bDate) return 1;
+            else if (aDate > bDate) return -1;
+            return 0;
+        })
+    }
+    return {
+        type: SORT_WALLETS,
+        wallets: sortedWallets
     }
 }
 

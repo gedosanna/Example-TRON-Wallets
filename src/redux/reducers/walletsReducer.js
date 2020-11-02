@@ -16,7 +16,7 @@ const initialState = {
     walletsHolder: [],
     loadingAdd: true,
     messageAdd: 'Add new',
-    resultClass: 'correct',
+    resultClass: '',
     loadingWallets: true,
     sorted: false,
     search: false,

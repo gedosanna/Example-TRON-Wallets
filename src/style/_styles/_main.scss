@@ -8,6 +8,7 @@
     * {
         font-family: Arial, Helvetica, sans-serif;
     }
+    @include scrollBar;
     header {
         @include box;
         border: .02rem solid $goldColor;
@@ -18,30 +19,40 @@
             font-size: 2rem;
             margin: 0;
             text-align: center;
+            &::first-letter{
+                font-size: 3rem;
+                color: $goldColor;
+            }
         }
     }
     .addresses-container {
         @include box;
-        min-height: 20vh;
         padding: 2rem 2.5rem;
         h2 {
             font-size: 1.5rem;
             border-bottom: .02rem solid $goldColor;
-            padding: .3rem;
+            padding: 1rem 0;
+            height: fit-content;
+            &::first-letter{
+                font-size: 1.8rem;
+                font-weight: bold;
+            }
         }
         form {
             p {
                 color: $darkColor;
                 padding-right: 2.8rem;
+                margin: 1rem 0;
                 &.incorrect {
                     color: $redColor;
                 }
                 &.correct {
-                    color: $darkColor
+                    color: $greenColor;
                 }
             }
             input {
                 @include input;
+                width: calc(100% - 2.8rem);
                 max-width: 100%;
                 &.incorrect {
                     border-color: $redColor;
@@ -52,10 +63,10 @@
             }
             button {
                 background-color: $goldColor;
-                border: 0;
                 width: 2rem;
                 height: 2rem;
                 margin-left: .8rem;
+                margin-top: 0;
                 font-size: .8rem;
                 border-radius: 50%;
                 display: inline-flex;
@@ -86,10 +97,14 @@
                 }
             }
         }
+        .no-addresses {
+            font-size: 2rem;
+        }
         button {
             border: .01rem solid $goldColor;
             background: transparent;
             padding: .4rem .8rem;
+            margin-top: 2rem;
             &:focus {
                 outline: none;
             }
@@ -98,33 +113,34 @@
             }
         }
     }
-    .wallets-table-container {
+    .wallets-container {
         @include box;
         margin-top: 5rem;
         padding: 2rem 2.5rem;
-        min-height: 20vh;
-        overflow-x: auto;
-        .wallets-table {
-            th {
-                border: 0;
+        .wallets-table-container {
+            overflow-x: auto;
+            .wallets-table {
+                th {
+                    border: 0;
+                }
+            }
+            .sort-element {
+                color: $goldColor;
+                cursor: pointer;
+                font-size: 1.2rem;
+                padding: 0;
+                &:hover {
+                    color: $shadowColor;
+                }
+            }
+            input {
+                @include input;
+                margin-top: 1rem;
+                max-width: 10rem;
+                &.first-search {
+                    max-width: 15rem;
+                }
             }
         }
-        .sort-element {
-            color: $goldColor;
-            margin: 0 .2rem;
-            cursor: pointer;
-            display: block;
-            font-size: 1.2rem;
-            &:hover {
-                color: $shadowColor;
-            }
-        }
-        input {
-            @include input;
-            max-width: 8rem;
-            &.first-search {
-                max-width: 15rem;
-            }
-        }
-    }
+    }   
 }

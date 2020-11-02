@@ -10,3 +10,17 @@
       outline: none;
   }
 }
+@mixin scrollBar {
+  ::-webkit-scrollbar {
+    height: .5rem;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: transparent
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: $shadowColor;
+    border-radius: 2rem;
+  }
+}

@@ -8,12 +8,12 @@ import { WalletsTable } from './components/WalletsTable';
 
 const App = (props) => {
     const [address, setAddress] = useState();
-    const [inputAddressValue, setInputAddressValue] = useState('Type base58 address here...'); 
+    const [inputAddressValue, setInputAddressValue] = useState('Type base58 address here...');
     const [showTable, setShowTable] = useState(false);
     const [changeInputAddressValue, setChangeInputAddressValue] = useState(true);
 
     useEffect(() => {
-        if(props.resultClass === 'correct') setInputAddressValue('')
+        if (props.resultClass === 'correct') setInputAddressValue('')
     }, [props.resultClass])
 
     return (
@@ -24,11 +24,11 @@ const App = (props) => {
             <section className="row m-0 container-fluid justify-content-center">
                 <div className="addresses-container col-sm-10">
                     <div className="row m-0 justify-content-between flex-wrap">
-                        <h2 className="col-sm-4">Your addresses</h2>
-                        <form className="col-sm-8 col-md-6 row m-0 justify-content-end p-0">
+                        <h2 className="col-md-6 col-lg-4 m-0">Your addresses</h2>
+                        <form className="col-lg-6 col-xl-4 row m-0 justify-content-end p-0">
                             <p className={"text-center col-12 font-weight-bold " + props.resultClass}>{props.message}</p>
                             <div className='col-12 text-center'>
-                                <input type='text' value={inputAddressValue} onFocus={()=>{if(inputAddressValue === 'Type base58 address here...') setInputAddressValue('')}} className={props.resultClass} onChange={(e) =>{setInputAddressValue(e.target.value); setAddress(e.target.value)}} />
+                                <input type='text' value={inputAddressValue} onFocus={() => { if (inputAddressValue === 'Type base58 address here...') setInputAddressValue('') }} className={props.resultClass} onChange={(e) => { setInputAddressValue(e.target.value); setAddress(e.target.value) }} />
                                 <button type='submit' onClick={(e) => {
                                     e.preventDefault();
                                     setShowTable(false);
@@ -54,13 +54,18 @@ const App = (props) => {
                                 })
                             }}>Generate table</button>
                         }
+                        {props.addresses.length === 0 &&
+                            <p className='no-addresses'>No addresses</p>
+                        }
                     </div>
                 </div>
             </section>
             <section className="row m-0 container-fluid justify-content-center">
                 {showTable && props.addresses.length > 0 &&
-                    <div className="wallets-table-container col-sm-10">
-                        <WalletsTable wallets={props.wallets} sortWallets={props.sortWallets} walletsHolder={props.walletsHolder} searchWallets={props.searchWallets} />
+                    <div className="wallets-container col-sm-10">
+                        <div className="wallets-table-container container-fluid">
+                            <WalletsTable wallets={props.wallets} sortWallets={props.sortWallets} walletsHolder={props.walletsHolder} searchWallets={props.searchWallets} />
+                        </div>
                     </div>
                 }
             </section>

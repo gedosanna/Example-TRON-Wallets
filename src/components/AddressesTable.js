@@ -13,7 +13,7 @@ export const AddressesTable = (props) => {
                 {props.addresses.map((address, i) => {
                     return (
                         <tr key={i}>
-                            <th scope="row">{i+1}</th>
+                            <th scope="row">{i + 1}</th>
                             <td>{address}</td>
                             <td className="font-weight-bold delete-address d-flex justify-content-center align-items-center" onClick={() => props.removeAddress(address)}>x</td>
                         </tr>
