@@ -33,14 +33,14 @@ const walletsReducer = (state = initialState, action) => {
         case FETCH_ADDRESS_SUCCESS : {
             const message = action.result ? 'Added successfully!' : `Error: ${action.message}`
             const newAddresses = action.result ? state.addresses.concat(action.address) : state.addresses
-            const resultClass = action.result? 'correct': 'incorrect'
+            const resultClass = action.result ? 'correct': 'incorrect';
             return {
                 ...state,
                 loadingAdd: false,
                 resultClass: resultClass,
                 messageAdd: message,
                 error: '',
-                addresses: newAddresses
+                addresses: newAddresses,
             }
         }
         case FETCH_ADDRESS_FAILURE : {

@@ -42,6 +42,7 @@
             }
             input {
                 @include input;
+                max-width: 100%;
                 &.incorrect {
                     border-color: $redColor;
                 }

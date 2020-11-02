@@ -15,7 +15,7 @@ export const AddressesTable = (props) => {
                         <tr key={i}>
                             <th scope="row">{i+1}</th>
                             <td>{address}</td>
-                            <td className="font-weight-bold delete-address" onClick={() => props.removeAddress(address)}>x</td>
+                            <td className="font-weight-bold delete-address d-flex justify-content-center align-items-center" onClick={() => props.removeAddress(address)}>x</td>
                         </tr>
                     )
                 })}

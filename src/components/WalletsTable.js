@@ -61,8 +61,9 @@ export const WalletsTable = (props) => {
             </thead>
             <tbody>
                 {props.wallets.map((wallet, i) => {
+                    let balance;
                     let createTime = new Date(wallet.create_time);
-                    const balance = parseInt(wallet.balance, 16);
+                    wallet.balance ? balance = parseInt(wallet.balance, 16): '';
                     let latestOprationTime = new Date(wallet.latest_opration_time);
                     createTime = moment(createTime).format('MMMM D YYYY');
                     latestOprationTime = moment(latestOprationTime).format('MMMM D YYYY');

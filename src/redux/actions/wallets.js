@@ -36,25 +36,35 @@ export const fetchAddressFailure = (error) => {
     }
 }
 
-export const fetchAddress = (address) => {
-    return (dispatch) => {
-        dispatch(fetchAddressRequest)
+export const fetchAddress = (address, addresses) => {
+    if (!addresses.includes(address)) {
+        return (dispatch) => {
+            dispatch(fetchAddressRequest)
 
-        fetch("https://api.trongrid.io/wallet/validateaddress", {
-            "method": "POST",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": JSON.stringify({ address: address })
-        })
-            .then(response => response.json())
-            .then(responseJson => {
-                dispatch(fetchAddressSuccess(responseJson, address))
+            fetch("https://api.trongrid.io/wallet/validateaddress", {
+                "method": "POST",
+                "headers": {
+                    "Content-Type": "application/json"
+                },
+                "body": JSON.stringify({ address: address })
             })
-            .catch(err => {
-                console.error(err);
-                dispatch(fetchAddressFailure(err.message))
-            });
+                .then(response => response.json())
+                .then(responseJson => {
+                    dispatch(fetchAddressSuccess(responseJson, address))
+                })
+                .catch(err => {
+                    console.error(err);
+                    dispatch(fetchAddressFailure(err.message))
+                });
+        }
+    }
+    else {
+        return(dispatch) => dispatch(fetchAddressSuccess({
+            type: FETCH_ADDRESS_SUCCESS,
+            result: false,
+            message: 'Already exists!',
+            address: address
+        }))
     }
 }
 
@@ -97,12 +107,12 @@ export const fetchWallets = (address, wallets) => {
             "headers": {
                 "Content-Type": "application/json"
             },
-            "body": JSON.stringify({address: address, visible: true})
+            "body": JSON.stringify({ address: address, visible: true })
+        })
+            .then(response => response.json())
+            .then(responseJson => {
+                dispatch(fetchWalletsSuccess(responseJson))
             })
-                .then(response => response.json())
-                .then(responseJson => {
-                    dispatch(fetchWalletsSuccess(responseJson))
-                })
             .catch(err => {
                 console.error(err);
                 (fetchWalletsFailure(err.message))
@@ -115,9 +125,9 @@ export const fetchWallets = (address, wallets) => {
 export const sortWallets = (wallets, operationType) => {
     switch (operationType) {
         case 'addressUp': {
-            const sortedWallets = wallets.sort((a, b)=> {
-                if(a.address < b.address) return -1;
-                else if(a.address > b.address) return 1;
+            const sortedWallets = wallets.sort((a, b) => {
+                if (a.address < b.address) return -1;
+                else if (a.address > b.address) return 1;
                 return 0;
             })
             return {
@@ -126,9 +136,9 @@ export const sortWallets = (wallets, operationType) => {
             }
         }
         case 'addressDown': {
-            const sortedWallets = wallets.sort((a, b)=> {
-                if(a.address < b.address) return 1;
-                else if(a.address > b.address) return -1;
+            const sortedWallets = wallets.sort((a, b) => {
+                if (a.address < b.address) return 1;
+                else if (a.address > b.address) return -1;
                 return 0;
             })
             return {
@@ -137,11 +147,12 @@ export const sortWallets = (wallets, operationType) => {
             }
         }
         case 'balanceUp': {
-            const sortedWallets = wallets.sort((a, b)=> {
-                const aBalance = parseInt(a.balance, 16);
-                const bBalance = parseInt(b.balance, 16);
-                if(aBalance < bBalance) return -1;
-                else if(aBalance > bBalance) return 1;
+            const sortedWallets = wallets.sort((a, b) => {
+                let aBalance, bBalance;
+                a.balance === undefined ? aBalance = 0 : aBalance = parseInt(a.balance, 16);
+                b.balance === undefined ? bBalance = 0 : bBalance = parseInt(b.balance, 16);
+                if (aBalance < bBalance) return -1;
+                else if (aBalance > bBalance) return 1;
                 return 0;
             })
             return {
@@ -150,11 +161,12 @@ export const sortWallets = (wallets, operationType) => {
             }
         }
         case 'balanceDown': {
-            const sortedWallets = wallets.sort((a, b)=> {
-                const aBalance = parseInt(a.balance, 16);
-                const bBalance = parseInt(b.balance, 16);
-                if(aBalance < bBalance) return 1;
-                else if(aBalance > bBalance) return -1;
+            const sortedWallets = wallets.sort((a, b) => {
+                let aBalance, bBalance;
+                a.balance === undefined ? aBalance = 0 : aBalance = parseInt(a.balance, 16);
+                b.balance === undefined ? bBalance = 0 : bBalance = parseInt(b.balance, 16);
+                if (aBalance < bBalance) return 1;
+                else if (aBalance > bBalance) return -1;
                 return 0;
             })
             return {
@@ -163,11 +175,11 @@ export const sortWallets = (wallets, operationType) => {
             }
         }
         case 'createTimeUp': {
-            const sortedWallets = wallets.sort((a, b)=> {
+            const sortedWallets = wallets.sort((a, b) => {
                 const aDate = new Date(a.create_time);
                 const bDate = new Date(b.create_time);
-                if(aDate < bDate) return -1;
-                else if(aDate > bDate) return 1;
+                if (aDate < bDate) return -1;
+                else if (aDate > bDate) return 1;
                 return 0;
             })
             return {
@@ -176,11 +188,11 @@ export const sortWallets = (wallets, operationType) => {
             }
         }
         case 'createTimeDown': {
-            const sortedWallets = wallets.sort((a, b)=> {
+            const sortedWallets = wallets.sort((a, b) => {
                 const aDate = new Date(a.create_time);
                 const bDate = new Date(b.create_time);
-                if(aDate < bDate) return 1;
-                else if(aDate > bDate) return -1;
+                if (aDate < bDate) return 1;
+                else if (aDate > bDate) return -1;
                 return 0;
             })
             return {
@@ -189,11 +201,11 @@ export const sortWallets = (wallets, operationType) => {
             }
         }
         case 'latestOperationTimeUp': {
-            const sortedWallets = wallets.sort((a, b)=> {
+            const sortedWallets = wallets.sort((a, b) => {
                 const aDate = new Date(a.latest_opration_time);
                 const bDate = new Date(b.latest_opration_time);
-                if(aDate < bDate) return -1;
-                else if(aDate > bDate) return 1;
+                if (aDate < bDate) return -1;
+                else if (aDate > bDate) return 1;
                 return 0;
             })
             return {
@@ -202,11 +214,11 @@ export const sortWallets = (wallets, operationType) => {
             }
         }
         case 'latestOperationTimeDown': {
-            const sortedWallets = wallets.sort((a, b)=> {
+            const sortedWallets = wallets.sort((a, b) => {
                 const aDate = new Date(a.latest_opration_time);
                 const bDate = new Date(b.latest_opration_time);
-                if(aDate < bDate) return 1;
-                else if(aDate > bDate) return -1;
+                if (aDate < bDate) return 1;
+                else if (aDate > bDate) return -1;
                 return 0;
             })
             return {
@@ -221,29 +233,29 @@ export const sortWallets = (wallets, operationType) => {
 
 export const searchWallets = (searchText, walletsHolder, column) => {
     let foundWallets = [];
-    if(column === 'address') {
+    if (column === 'address') {
         foundWallets = walletsHolder.filter(wallet => {
-            if(wallet.address.toUpperCase().includes(searchText.toUpperCase())) return wallet
+            if (wallet.address.toUpperCase().includes(searchText.toUpperCase())) return wallet
         })
     }
-    else if(column === 'balance') {
+    else if (column === 'balance') {
         foundWallets = walletsHolder.filter(wallet => {
             const balance = parseInt(wallet.balance, 16).toString();
-            if(balance.includes(searchText)) return wallet
+            if (balance.includes(searchText)) return wallet
         })
     }
-    else if(column === 'createTime') {
+    else if (column === 'createTime') {
         foundWallets = walletsHolder.filter(wallet => {
             let createTime = new Date(wallet.create_time);
             createTime = moment(createTime).format('MMMM D YYYY').toString().toUpperCase();
-            if(createTime.includes(searchText.toUpperCase())) return wallet
+            if (createTime.includes(searchText.toUpperCase())) return wallet
         })
     }
-    else if(column === 'latestOperationTime') {
+    else if (column === 'latestOperationTime') {
         foundWallets = walletsHolder.filter(wallet => {
             let createTime = new Date(wallet.latest_opration_time);
             createTime = moment(createTime).format('MMMM D YYYY').toString().toUpperCase();
-            if(createTime.includes(searchText.toUpperCase())) return wallet
+            if (createTime.includes(searchText.toUpperCase())) return wallet
         })
     }
     return {
